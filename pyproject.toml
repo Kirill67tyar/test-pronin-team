@@ -1,0 +1,24 @@
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+
+[tool.poetry]
+package-mode = false
+
+[project]
+authors = [
+    {email = "kirillbogomolov.ric@yandex.ru", name = "Kirill Bogomolov"},
+]
+dependencies = [
+    "django (>=5.2.1,<6.0.0)",
+    "django-split-settings (>=1.3.2,<2.0.0)",
+    "djangorestframework (>=3.16.0,<4.0.0)",
+    "djangorestframework-simplejwt (>=5.5.0,<6.0.0)",
+    "psycopg2-binary (>=2.9.10,<3.0.0)",
+    "pytz (>=2025.2,<2026.0)",
+]
+description = ""
+name = "test-pronin-team"
+readme = "README.md"
+requires-python = ">=3.11,<4.0"
+version = "0.1.0"
