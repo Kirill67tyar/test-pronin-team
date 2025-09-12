@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from fees.models import Payment, Collect
+
+admin.site.register(Payment)
+admin.site.register(Collect)
