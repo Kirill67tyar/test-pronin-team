@@ -19,6 +19,87 @@ services:
       retries: 5
     restart: "always"
 
+  redis:
+    container_name: redis-container
+    image: redis:7-alpine
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_USER=${REDIS_USER}
+      - REDIS_USER_PASSWORD=${REDIS_USER_PASSWORD}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_DB=${REDIS_DB}
+    command: >
+      sh -c '
+        mkdir -p /usr/local/etc/redis &&
+        echo "bind 0.0.0.0" > /usr/local/etc/redis/redis.conf &&
+        echo "requirepass $REDIS_PASSWORD" >> /usr/local/etc/redis/redis.conf &&
+        echo "appendonly yes" >> /usr/local/etc/redis/redis.conf &&
+        echo "appendfsync everysec" >> /usr/local/etc/redis/redis.conf &&
+        echo "user default off" > /usr/local/etc/redis/users.acl &&
+        echo "user $REDIS_USER on >$REDIS_USER_PASSWORD ~* &* +@all" >> /usr/local/etc/redis/users.acl &&
+        redis-server /usr/local/etc/redis/redis.conf --aclfile /usr/local/etc/redis/users.acl
+      '
+    volumes:
+      - redis_data:/data
+    ports:
+      - 6379:6379
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    expose:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "$REDIS_PASSWORD", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: "always"
+
+  mailhog:
+    container_name: mailhog
+    image: mailhog/mailhog:latest
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI
+
+  django-app:
+    container_name: django-app
+    build:
+      context: .
+      dockerfile: ./src/Dockerfile
+    image: django-app:latest
+    env_file:
+      - ./.env
+    # expose:
+    #   - 8000:8000
+    cpus: "1"
+    mem_limit: 256M
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: always
+    
+  # celery:
+  #   container_name: celery
+  #   image: django-app:latest
+  #   command: ["./src/scripts/run_celery.sh", "celery"]
+  #   working_dir: /opt/app
+    # command: >
+    #   sh -c '
+    #     chmod +x ./src/scripts/run_celery.sh
+    #     ./src/scripts/run_celery.sh celery
+    #   '
+    # env_file:
+      # - .env
+      # - ./.env
+    # restart: always
+
 volumes:
-  # redis_data:
+  redis_data:
   pg_data_volume:

@@ -9,7 +9,10 @@ from api.v1.views import (
 router_v1 = DefaultRouter()
 
 router_v1.register("collections", CollectModelViewSet, basename="collection")
-router_v1.register("payments", PaymentModelViewSet, basename="payment")
+# router_v1.register("payments", PaymentModelViewSet, basename="payment")
+router_v1.register(
+    r'collections/(?P<collect_id>\d+)/payments', PaymentModelViewSet, basename='payments'
+)
 # router_v1.register("categories", CategoryViewSet, basename="categorie")
 # router_v1.register(
 #     r"titles/(?P<title_id>\d+)/reviews", ReviewViewSet, basename="reviews"

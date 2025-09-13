@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 class Payment(models.Model):
-    name = models.CharField(max_length=50, verbose_name="Название платежа")
+    comment = models.CharField(max_length=50, verbose_name="Комментарий к платежу")
     owner = models.ForeignKey(
         to=User,
         on_delete=models.SET_NULL,

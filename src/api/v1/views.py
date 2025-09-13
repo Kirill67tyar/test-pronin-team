@@ -1,6 +1,14 @@
+from django.shortcuts import get_object_or_404
 from rest_framework.viewsets import ModelViewSet
 from fees.models import Collect, Payment
-from api.v1.serializers import (CollectDetailModelSerializer, CollectListModelSerializer, PaymentModelSerializer, CollectWriteModelSerializer)
+from api.v1.serializers import (
+    CollectDetailModelSerializer, 
+    CollectListModelSerializer,
+    CollectWriteModelSerializer, 
+    PaymentDetailModelSerializer, 
+    PaymentListModelSerializer, 
+    PaymentWriteModelSerializer, 
+    )
 from django.db.models import Count, OuterRef, Subquery, Value, Sum
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.db.models.functions import Coalesce, Concat
@@ -10,9 +18,28 @@ from decimal import Decimal
 
 
 class PaymentModelViewSet(ModelViewSet):
-    serializer_class = PaymentModelSerializer
-    queryset = Payment.objects.select_related("owner",)
+    # queryset = Payment.objects.select_related("owner",)
+    http_method_names = [
+        "get",
+        "post",
+        "put",
+        "delete",
+    ]
 
+    def get_serializer_class(self):
+        if self.action == "retrieve":
+            return PaymentDetailModelSerializer
+        elif self.action == "list":
+            return PaymentListModelSerializer
+        return PaymentWriteModelSerializer
+    
+    def perform_create(self, serializer):
+        collection = get_object_or_404(Collect, id=self.kwargs.get('collect_id'))
+        serializer.save(collection=collection)
+    
+    def get_queryset(self):
+        collection = get_object_or_404(Collect, id=self.kwargs.get('collect_id'))
+        return collection.payments.select_related("owner", "collection").all()
 
 class CollectModelViewSet(ModelViewSet):
     serializer_class = CollectDetailModelSerializer
@@ -21,7 +48,7 @@ class CollectModelViewSet(ModelViewSet):
     http_method_names = [
         "get",
         "post",
-        "patch",
+        "put",
         "delete",
     ]
     def get_serializer_class(self):
