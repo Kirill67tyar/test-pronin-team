@@ -1,5 +1,20 @@
 .
 ├── docker-compose.yml
+├── draft
+│   ├── create-example.json
+│   ├── detail-example.json
+│   ├── docs
+│   │   ├── docker-compose.doc.yml
+│   │   ├── Dockerfile
+│   │   ├── nginx.conf
+│   │   ├── openapi-schema.yml
+│   │   └── redoc.html
+│   ├── draft.py
+│   ├── frontend
+│   │   └── build
+│   │       └── api
+│   │           └── docs
+│   └── list-example.json
 ├── Makefile
 ├── poetry.lock
 ├── pyproject.toml
@@ -37,6 +52,7 @@
 │   │   │   ├── urls.cpython-312.pyc
 │   │   │   └── wsgi.cpython-312.pyc
 │   │   ├── asgi.py
+│   │   ├── celery.py
 │   │   ├── settings.py
 │   │   ├── urls.py
 │   │   └── wsgi.py
@@ -65,6 +81,7 @@
 │   │   │   ├── 0004_alter_payment_options_alter_collect_author_and_more.py
 │   │   │   └── 0005_rename_name_payment_comment.py
 │   │   ├── models.py
+│   │   ├── tasks.py
 │   │   ├── tests.py
 │   │   └── views.py
 │   ├── manage.py
@@ -81,3 +98,4 @@
 │   └── seed-file.json
 └── tree.txt
 
+24 directories, 75 files

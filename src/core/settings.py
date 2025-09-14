@@ -72,10 +72,10 @@ DATABASES = {
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/1',
+        'LOCATION': "redis://redis_user:Parol123@localhost:6379/0",
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-            'PARSER_CLASS': 'redis.connection.HiredisParser',
+            # "PICKLE_VERSION": -1  # Will use highest protocol version available
         }
     }
 }
@@ -115,11 +115,34 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+# CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
+CELERY_BROKER_URL = "redis://redis_user:Parol123@localhost:6379/0"
+# CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+CELERY_RESULT_BACKEND = "redis://redis_user:Parol123@localhost:6379/0"
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
+
+
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = os.environ.get("MAILHOG_HOST", "localhost")
+EMAIL_PORT = int(os.environ.get("MAILHOG_PORT", 1025))
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
+EMAIL_USE_TLS = False
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "test-pronin-team@yandex.ru")
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5,
+}
+
+COLLECT_LIST = "collections:{page}:list"
+COLLECT_DETAIL = "collections:{collect_id}:detail"
+PAYMENT_LIST = "collections:{collect_id}:payments:{page}:list"
+PAYMENT_DETAIL = "collections:{collect_id}:payments:{payment_id}:detail"
+CACHE_TTL = 60 * 5

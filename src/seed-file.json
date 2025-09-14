@@ -111,7 +111,7 @@
         "model": "fees.payment",
         "pk": 1,
         "fields": {
-            "name": "p1",
+            "comment": "p1",
             "owner": 1,
             "collection": 3,
             "amount": "100.13",
@@ -123,7 +123,7 @@
         "model": "fees.payment",
         "pk": 2,
         "fields": {
-            "name": "p2",
+            "comment": "p2",
             "owner": 3,
             "collection": 5,
             "amount": "2112.32",
@@ -135,7 +135,7 @@
         "model": "fees.payment",
         "pk": 3,
         "fields": {
-            "name": "p3",
+            "comment": "p3",
             "owner": 6,
             "collection": 1,
             "amount": "432.12",
@@ -147,7 +147,7 @@
         "model": "fees.payment",
         "pk": 4,
         "fields": {
-            "name": "p4",
+            "comment": "p4",
             "owner": 4,
             "collection": 1,
             "amount": "0.01",
@@ -159,7 +159,7 @@
         "model": "fees.payment",
         "pk": 5,
         "fields": {
-            "name": "p2",
+            "comment": "p2",
             "owner": 1,
             "collection": 1,
             "amount": "0.13",
@@ -171,7 +171,7 @@
         "model": "fees.payment",
         "pk": 6,
         "fields": {
-            "name": "p6",
+            "comment": "p6",
             "owner": 4,
             "collection": 4,
             "amount": "0.03",
@@ -183,7 +183,7 @@
         "model": "fees.payment",
         "pk": 7,
         "fields": {
-            "name": "p7",
+            "comment": "p7",
             "owner": 5,
             "collection": 5,
             "amount": "0.04",
@@ -195,7 +195,7 @@
         "model": "fees.payment",
         "pk": 8,
         "fields": {
-            "name": "p8",
+            "comment": "p8",
             "owner": 3,
             "collection": 5,
             "amount": "0.08",
@@ -207,7 +207,7 @@
         "model": "fees.payment",
         "pk": 9,
         "fields": {
-            "name": "p9",
+            "comment": "p9",
             "owner": 3,
             "collection": 3,
             "amount": "321.32",
@@ -219,7 +219,7 @@
         "model": "fees.payment",
         "pk": 10,
         "fields": {
-            "name": "p10",
+            "comment": "p10",
             "owner": 3,
             "collection": 1,
             "amount": "543.32",
