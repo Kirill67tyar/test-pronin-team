@@ -7,6 +7,7 @@ from split_settings.tools import include
 
 load_dotenv()
 
+
 include(
     "components/apps.py",
     "components/middleware.py",
