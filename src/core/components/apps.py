@@ -1,0 +1,25 @@
+import os
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+DEBUG = os.getenv("DJANGO_DEBUG", False) == "True"
+
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    "django_extensions",
+    "rest_framework",
+    "drf_yasg",
+    'fees.apps.FeesConfig',
+    'api.apps.ApiConfig',
+]
+
+if DEBUG:
+    INSTALLED_APPS.append('debug_toolbar')

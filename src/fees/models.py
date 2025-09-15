@@ -6,7 +6,7 @@ User = get_user_model()
 
 class Payment(models.Model):
     comment = models.CharField(max_length=50, verbose_name="Комментарий к платежу")
-    owner = models.ForeignKey(
+    author = models.ForeignKey(
         to=User,
         on_delete=models.SET_NULL,
         null=True,
@@ -72,5 +72,5 @@ class Collect(models.Model):
     
     # @property
     # def list_supported(self):
-    #     ls_supported = [self.payments.select_related("owner")]
+    #     ls_supported = [self.payments.select_related("author")]
     #     pass

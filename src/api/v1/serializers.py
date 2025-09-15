@@ -29,7 +29,7 @@ class PaymentCollectionModelSerializer(serializers.ModelSerializer):
 
 class PaymentListModelSerializer(serializers.ModelSerializer):
 
-    owner = UserModelSerializer(
+    author = UserModelSerializer(
         many=False,
     )
     class Meta:
@@ -37,14 +37,14 @@ class PaymentListModelSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'comment',
-            'owner',
+            'author',
             'collection',
             'amount',
             'created_at',
         )
 
 class PaymentDetailModelSerializer(serializers.ModelSerializer):
-    owner = UserModelSerializer(
+    author = UserModelSerializer(
         many=False,
     )
     collection = PaymentCollectionModelSerializer(many=False)
@@ -53,20 +53,20 @@ class PaymentDetailModelSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'comment',
-            'owner',
+            'author',
             'collection',
             'amount',
             'created_at',
             'updated_at',
         )
 class PaymentWriteModelSerializer(serializers.ModelSerializer):
-    owner = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    author = serializers.HiddenField(default=serializers.CurrentUserDefault())
     class Meta:
         model = Payment
         fields = (
             "comment",
             "amount",
-            "owner",
+            "author",
         )
     # def create(self, validated_data):
     #     validated_data['author'] = self.context['request'].user

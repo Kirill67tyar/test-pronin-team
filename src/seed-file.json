@@ -112,7 +112,7 @@
         "pk": 1,
         "fields": {
             "comment": "p1",
-            "owner": 1,
+            "author": 1,
             "collection": 3,
             "amount": "100.13",
             "created_at": "2025-09-12T14:46:57.159Z",
@@ -124,7 +124,7 @@
         "pk": 2,
         "fields": {
             "comment": "p2",
-            "owner": 3,
+            "author": 3,
             "collection": 5,
             "amount": "2112.32",
             "created_at": "2025-09-12T14:47:15.576Z",
@@ -136,7 +136,7 @@
         "pk": 3,
         "fields": {
             "comment": "p3",
-            "owner": 6,
+            "author": 6,
             "collection": 1,
             "amount": "432.12",
             "created_at": "2025-09-12T14:47:40.575Z",
@@ -148,7 +148,7 @@
         "pk": 4,
         "fields": {
             "comment": "p4",
-            "owner": 4,
+            "author": 4,
             "collection": 1,
             "amount": "0.01",
             "created_at": "2025-09-12T14:47:58.408Z",
@@ -160,7 +160,7 @@
         "pk": 5,
         "fields": {
             "comment": "p2",
-            "owner": 1,
+            "author": 1,
             "collection": 1,
             "amount": "0.13",
             "created_at": "2025-09-12T14:48:16.474Z",
@@ -172,7 +172,7 @@
         "pk": 6,
         "fields": {
             "comment": "p6",
-            "owner": 4,
+            "author": 4,
             "collection": 4,
             "amount": "0.03",
             "created_at": "2025-09-12T14:48:29.404Z",
@@ -184,7 +184,7 @@
         "pk": 7,
         "fields": {
             "comment": "p7",
-            "owner": 5,
+            "author": 5,
             "collection": 5,
             "amount": "0.04",
             "created_at": "2025-09-12T14:48:42.859Z",
@@ -196,7 +196,7 @@
         "pk": 8,
         "fields": {
             "comment": "p8",
-            "owner": 3,
+            "author": 3,
             "collection": 5,
             "amount": "0.08",
             "created_at": "2025-09-12T14:48:59.102Z",
@@ -208,7 +208,7 @@
         "pk": 9,
         "fields": {
             "comment": "p9",
-            "owner": 3,
+            "author": 3,
             "collection": 3,
             "amount": "321.32",
             "created_at": "2025-09-12T14:49:40.463Z",
@@ -220,7 +220,7 @@
         "pk": 10,
         "fields": {
             "comment": "p10",
-            "owner": 3,
+            "author": 3,
             "collection": 1,
             "amount": "543.32",
             "created_at": "2025-09-12T14:49:53.348Z",

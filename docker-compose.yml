@@ -68,37 +68,42 @@ services:
       - "1025:1025"   # SMTP
       - "8025:8025"   # Web UI
 
-  # django-app:
-  #   container_name: django-app
-  #   build:
-  #     context: .
-  #     dockerfile: ./src/Dockerfile
-  #   image: django-app:latest
-  #   env_file:
-  #     - ./.env
-  #   # expose:
-  #   #   - 8000:8000
-  #   cpus: "1"
-  #   mem_limit: 256M
-  #   depends_on:
-  #     redis:
-  #       condition: service_healthy
-  #   restart: always
+  django-app:
+    container_name: django-app
+    build:
+      context: .
+      dockerfile: ./src/Dockerfile
+    image: django-app:latest
+    env_file:
+      - ./.env
+    # expose:
+    #   - 8000:8000
+    ports:
+      - 8000:8000
+    cpus: "1"
+    mem_limit: 256M
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    restart: always
     
-  # celery:
-  #   container_name: celery
-  #   image: django-app:latest
-  #   command: ["./src/scripts/run_celery.sh", "celery"]
-  #   working_dir: /opt/app
+  celery:
+    container_name: celery
+    image: django-app:latest
+    command: ["./scripts/run_celery.sh", "celery"]
+    # /opt/app/scripts
+    working_dir: /opt/app
     # command: >
     #   sh -c '
     #     chmod +x ./src/scripts/run_celery.sh
     #     ./src/scripts/run_celery.sh celery
     #   '
-    # env_file:
-      # - .env
-      # - ./.env
-    # restart: always
+    env_file:
+      - .env
+      - ./.env
+    restart: always
 
 volumes:
   redis_data:

@@ -25,6 +25,6 @@ RUN chmod +x ./scripts/entrypoint.sh
 
 RUN chmod +x ./scripts/run_celery.sh
 
-# CMD ["./scripts/entrypoint.sh"]
-CMD ["./scripts/run_celery.sh", "celery"]
+CMD ["./scripts/entrypoint.sh"]
+# CMD ["./scripts/run_celery.sh", "celery"]
 # CMD ["ls -al"]
