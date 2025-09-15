@@ -24,6 +24,6 @@ make populate_db
 ```
 docker compose exec django-app python manage.py populate_db
 ```
-- Swagger - http://127.0.0.1:8000/swagger/
+- Swagger - http://127.0.0.1:8000/swagger/ (http://127.0.0.1:8000/api/v1/collections/ и http://127.0.0.1:8000/api/v1/collections/500/payments/)
 - UI DRF - http://127.0.0.1:8000/api/v1/
 - UI Mailhog (локальный SMTP) - http://localhost:8025/
