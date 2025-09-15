@@ -15,16 +15,12 @@ ENV PATH="/root/.local/bin:${PATH}"
 
 COPY ../pyproject.toml ../poetry.lock ./
 
-# RUN poetry install --only main
 RUN poetry install --no-root
 
 COPY src/ .
-# COPY . .
 
 RUN chmod +x ./scripts/entrypoint.sh
 
 RUN chmod +x ./scripts/run_celery.sh
 
 CMD ["./scripts/entrypoint.sh"]
-# CMD ["./scripts/run_celery.sh", "celery"]
-# CMD ["ls -al"]

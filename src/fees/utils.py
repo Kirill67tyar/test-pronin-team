@@ -2,12 +2,11 @@ from decimal import Decimal
 
 
 def build_payment_email(
-    author_name: str,
-    author_email: str,
-    amount: Decimal,
-    collect_name: str
+    author_name: str, author_email: str, amount: Decimal, collect_name: str
 ) -> tuple[str, str, list[str], str]:
-    recipient_list = [author_email,]
+    recipient_list = [
+        author_email,
+    ]
     subject = f"Вы произвели оплату сбора - {collect_name}"
     message = (
         f"Здравствуйте {author_name}!\n\n"
@@ -22,12 +21,11 @@ def build_payment_email(
 
 
 def build_collect_email(
-    author_name: str,
-    author_email: str,
-    planned_amount: Decimal,
-    collect_name: str
+    author_name: str, author_email: str, planned_amount: Decimal, collect_name: str
 ) -> tuple[str, str, list[str], str]:
-    recipient_list = [author_email,]
+    recipient_list = [
+        author_email,
+    ]
     subject = f"Вы создали сбор - {collect_name}"
     message = (
         f"Здравствуйте {author_name}!\n\n"

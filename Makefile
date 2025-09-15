@@ -8,7 +8,6 @@ down:
 
 reload:
 	docker compose -f $(COMPOSE_FILE) down -v && docker compose -f $(COMPOSE_FILE) up -d --build
-	
-run-migrate:
-	chmod +x ./run_migrate.sh
-	./run_migrate.sh
+
+populate_db:
+	docker compose exec django-app python manage.py populate_db

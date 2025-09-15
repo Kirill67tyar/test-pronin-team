@@ -11,7 +11,6 @@ services:
       - "5432:5432"
     volumes:
       - pg_data_volume:/var/lib/postgresql/data
-      # - ./backup/postgres_dump-auth/dumps:/dumps
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
       interval: 10s
@@ -43,7 +42,7 @@ services:
     volumes:
       - redis_data:/data
     ports:
-      - 6379:6379
+      - "6379:6379"
     deploy:
       resources:
         limits:
@@ -52,8 +51,6 @@ services:
         reservations:
           cpus: '0.25'
           memory: 256M
-    expose:
-      - "6379:6379"
     healthcheck:
       test: ["CMD", "redis-cli", "-a", "$REDIS_PASSWORD", "ping"]
       interval: 30s
@@ -76,10 +73,8 @@ services:
     image: django-app:latest
     env_file:
       - ./.env
-    # expose:
-    #   - 8000:8000
     ports:
-      - 8000:8000
+      - "8000:8000"
     cpus: "1"
     mem_limit: 256M
     depends_on:
@@ -88,20 +83,13 @@ services:
       postgres:
         condition: service_healthy
     restart: always
-    
+
   celery:
     container_name: celery
     image: django-app:latest
     command: ["./scripts/run_celery.sh", "celery"]
-    # /opt/app/scripts
     working_dir: /opt/app
-    # command: >
-    #   sh -c '
-    #     chmod +x ./src/scripts/run_celery.sh
-    #     ./src/scripts/run_celery.sh celery
-    #   '
     env_file:
-      - .env
       - ./.env
     restart: always
 

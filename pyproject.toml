@@ -5,6 +5,9 @@ requires = ["poetry-core>=2.0.0,<3.0.0"]
 [tool.poetry]
 package-mode = false
 
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^4.3.0"
+
 [project]
 authors = [
     {email = "kirillbogomolov.ric@yandex.ru", name = "Kirill Bogomolov"},
@@ -25,6 +28,7 @@ dependencies = [
     "django-redis (>=6.0.0,<7.0.0)",
     "celery (>=5.5.3,<6.0.0)",
     "drf-yasg (>=1.21.10,<2.0.0)",
+    "faker (>=37.6.0,<38.0.0)",
 ]
 description = ""
 name = "test-pronin-team"
