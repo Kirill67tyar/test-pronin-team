@@ -3,11 +3,6 @@ from django.conf import settings
 from django.core.mail import send_mail
 
 
-@shared_task
-def test_task(x, y):
-    return x + y
-
-
 @shared_task(bind=True, max_retries=3, default_retry_delay=60)
 def send_email_task(
     self,

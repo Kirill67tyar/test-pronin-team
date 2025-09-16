@@ -98,45 +98,39 @@ class PaymentModelViewSet(ModelViewSet):
     def perform_create(self, serializer):
         collection = get_object_or_404(Collect, id=self.kwargs.get("collect_id"))
         instance = serializer.save(collection=collection)
+        self._invalidate_full_cache(instance)
+        self._send_payment_email(instance)
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        self._invalidate_full_cache(instance)
+
+    def perform_destroy(self, instance):
+        self._invalidate_full_cache(instance)
+        instance.delete()
+
+    @staticmethod
+    def _invalidate_full_cache(payment: Payment) -> None:
         detail_key = settings.PAYMENT_DETAIL.format(
-            collect_id=collection.pk,
-            payment_id=instance.pk,
+            collect_id=payment.collection.pk,
+            payment_id=payment.pk,
         )
-        list_key = settings.PAYMENT_LIST.format(collect_id=collection.pk, page="*")
+        list_key = settings.PAYMENT_LIST.format(collect_id=payment.collection.pk, page="*")
         cache.delete(detail_key)
         cache.delete_pattern(list_key)
-        if instance.author.email is not None:
+
+    @staticmethod
+    def _send_payment_email(payment: Payment) -> None:
+        if payment.author.email is not None:
             subject, message, recipient_list, html_message = build_payment_email(
-                author_name=instance.author.first_name,
-                author_email=instance.author.email,
-                amount=instance.amount,
-                collect_name=instance.collection.name,
+                author_name=payment.author.first_name,
+                author_email=payment.author.email,
+                amount=payment.amount,
+                collect_name=payment.collection.name,
             )
             transaction.on_commit(
                 lambda: send_email_task.delay(subject, message, recipient_list, html_message)
             )
-
-    def perform_update(self, serializer):
-        instance = serializer.save()
-        detail_key = settings.PAYMENT_DETAIL.format(
-            collect_id=instance.collection.pk,
-            payment_id=instance.pk,
-        )
-        cache.delete(detail_key)
-
-    def perform_destroy(self, instance):
-        payment_id = instance.pk
-        instance.delete()
-        list_key = settings.PAYMENT_LIST.format(
-            collect_id=instance.collection.pk,
-            page="*",
-        )
-        detail_key = settings.PAYMENT_DETAIL.format(
-            collect_id=instance.collection.pk,
-            payment_id=payment_id,
-        )
-        cache.delete_pattern(list_key)
-        cache.delete(detail_key)
 
 
 class CollectModelViewSet(ModelViewSet):
@@ -246,36 +240,33 @@ class CollectModelViewSet(ModelViewSet):
 
     def perform_create(self, serializer):
         instance = serializer.save()
-        detail_key = settings.COLLECT_DETAIL.format(collect_id=instance.pk)
+        self._invalidate_full_cache(instance)
+        self._send_collection_email(instance)
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        self._invalidate_full_cache(instance)
+
+    def perform_destroy(self, instance):
+        self._invalidate_full_cache(instance)
+        instance.delete()
+
+    @staticmethod
+    def _invalidate_full_cache(collection: Collect) -> None:
+        detail_key = settings.COLLECT_DETAIL.format(collect_id=collection.pk)
         list_key = settings.COLLECT_LIST.format(page="*")
         cache.delete(detail_key)
         cache.delete_pattern(list_key)
-        if instance.author.email is not None:
+
+    @staticmethod
+    def _send_collection_email(collection: Collect) -> None:
+        if collection.author.email is not None:
             subject, message, recipient_list, html_message = build_collect_email(
-                author_name=instance.author.first_name,
-                author_email=instance.author.email,
-                planned_amount=instance.planned_amount,
-                collect_name=instance.name,
+                author_name=collection.author.first_name,
+                author_email=collection.author.email,
+                planned_amount=collection.planned_amount,
+                collect_name=collection.name,
             )
             transaction.on_commit(
                 lambda: send_email_task.delay(subject, message, recipient_list, html_message)
             )
-
-    def perform_update(self, serializer):
-        instance = serializer.save()
-        detail_key = settings.COLLECT_DETAIL.format(
-            collect_id=instance.pk,
-        )
-        list_key = settings.COLLECT_LIST.format(page="*")
-        cache.delete(detail_key)
-        cache.delete_pattern(list_key)
-
-    def perform_destroy(self, instance):
-        collect_id = instance.pk
-        instance.delete()
-        list_key = settings.COLLECT_LIST.format(page="*")
-        detail_key = settings.COLLECT_DETAIL.format(
-            collect_id=collect_id,
-        )
-        cache.delete(detail_key)
-        cache.delete_pattern(list_key)
