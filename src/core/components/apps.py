@@ -16,8 +16,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_extensions",
     "rest_framework",
+    "rest_framework_simplejwt",
+    "rest_framework_simplejwt.token_blacklist",
     "drf_yasg",
     "fees.apps.FeesConfig",
+    "users.apps.UsersConfig",
     "api.apps.ApiConfig",
 ]
 

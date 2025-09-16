@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 from pathlib import Path
 
 from django.core.management.utils import get_random_secret_key
@@ -49,6 +50,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = "users.User"
 
 LANGUAGE_CODE = "ru-RU"
 
@@ -73,8 +75,33 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 5,
     "DEFAULT_PERMISSION_CLASSES": [
-        "api.v1.permissions.IsAuthenticatedAndAuthorOrReadOnly",
+        "rest_framework.permissions.AllowAny",
     ],
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+    ),
+}
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),  # Короткий access
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),  # Длинный refresh
+    "ROTATE_REFRESH_TOKENS": False,  # Не ротировать (опционально, если не нужно)
+    "BLACKLIST_AFTER_ROTATION": False,
+    "UPDATE_LAST_LOGIN": True,
+    "AUTH_HEADER_TYPES": ("Bearer",),
+    "USER_ID_FIELD": "id",
+    "USER_ID_CLAIM": "user_id",
+}
+SWAGGER_SETTINGS = {
+    "SECURITY_DEFINITIONS": {
+        "Bearer": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "Authorization",
+            "description": "Введите токен в формате: Bearer <ваш-access-токен>",
+        }
+    },
+    "USE_SESSION_AUTH": False,
 }
 
 COLLECT_LIST = "collections:{page}:list"

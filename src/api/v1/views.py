@@ -2,6 +2,7 @@
 from decimal import Decimal
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.contrib.postgres.fields import ArrayField
 from django.core.cache import cache
@@ -11,9 +12,11 @@ from django.db.models.fields import CharField
 from django.db.models.functions import Coalesce, Concat
 from django.shortcuts import get_object_or_404
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework.generics import CreateAPIView
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
+from api.v1.permissions import IsAuthenticatedAndAuthorOrReadOnly
 from api.v1.serializers import (
     CollectDetailModelSerializer,
     CollectListModelSerializer,
@@ -21,13 +24,22 @@ from api.v1.serializers import (
     PaymentDetailModelSerializer,
     PaymentListModelSerializer,
     PaymentWriteModelSerializer,
+    UserCreateSerializer,
 )
 from fees.models import Collect, Payment
 from fees.tasks import send_email_task
 from fees.utils import build_collect_email, build_payment_email
 
+User = get_user_model()
+
+
+class RegisterAPIView(CreateAPIView):
+    serializer_class = UserCreateSerializer
+    queryset = User.objects.all()
+
 
 class PaymentModelViewSet(ModelViewSet):
+    permission_classes = (IsAuthenticatedAndAuthorOrReadOnly,)
     http_method_names = [
         "get",
         "post",
@@ -134,6 +146,7 @@ class PaymentModelViewSet(ModelViewSet):
 
 
 class CollectModelViewSet(ModelViewSet):
+    permission_classes = (IsAuthenticatedAndAuthorOrReadOnly,)
     serializer_class = CollectDetailModelSerializer
     queryset = Collect.objects.select_related("author")
     http_method_names = [

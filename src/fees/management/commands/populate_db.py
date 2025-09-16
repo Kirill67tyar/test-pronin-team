@@ -26,8 +26,16 @@ class Command(BaseCommand):
         for _ in range(NUM_USERS):
             username = fake.user_name()
             email = fake.email()
-            password = fake.password()  # Случайный пароль
-            user = User.objects.create_user(username=username, email=email, password=password)
+            first_name = fake.file_name()
+            last_name = fake.last_name()
+            password = fake.password()
+            user = User.objects.create_user(
+                username=username,
+                email=email,
+                first_name=first_name,
+                last_name=last_name,
+                password=password,
+            )
             users.append(user)
 
         # Создание сборов (Collect)
