@@ -17,9 +17,4 @@ urlpatterns_v1 = [
     path("auth/login/", TokenObtainPairView.as_view(), name="login"),
     path("auth/logout/", TokenBlacklistView.as_view(), name="logout"),
     path("auth/refresh/", TokenRefreshView.as_view(), name="refresh"),
-    # path("api-auth/", include("rest_framework.urls")),
-    # path('auth/', include('djoser.urls.authtoken')),
-    # path('auth/', include('djoser.urls')),
-    # # JWT-эндпоинты, для управления JWT-токенами:
-    # path('auth/', include('djoser.urls.jwt')),
 ]
