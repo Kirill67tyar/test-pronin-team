@@ -2,12 +2,6 @@
 build-backend = "poetry.core.masonry.api"
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 
-[tool.poetry]
-package-mode = false
-
-[tool.poetry.group.dev.dependencies]
-pre-commit = "^4.3.0"
-
 [project]
 authors = [
     {email = "kirillbogomolov.ric@yandex.ru", name = "Kirill Bogomolov"},
@@ -35,3 +29,17 @@ name = "test-pronin-team"
 readme = "README.md"
 requires-python = ">=3.11,<4.0"
 version = "0.1.0"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^4.3.0"
+pytest-django = "^4.11.1"
+ruff = "^0.11.12"
+setuptools = "^80.9.0"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "core.settings"
+filterwarnings = [
+    "ignore:distutils Version classes are deprecated",
+    "ignore:pkg_resources is deprecated as an API",
+]
+pythonpath = "src"
